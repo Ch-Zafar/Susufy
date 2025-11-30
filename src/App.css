@@ -1,0 +1,44 @@
+@import "@solana/wallet-adapter-react-ui/styles.css";
+
+@font-face {
+  font-family: Mona ;
+  src: url('./fonts/MonaSans_SemiExpanded-Regular.ttf');
+}
+@font-face {
+  font-family: DancingScript ;
+  src: url('./fonts/DancingScript-VariableFont_wght.ttf');
+}
+
+@import "tailwindcss";
+
+
+@theme{
+    --color-background:#000;
+    --color-primary:#FFF;
+
+    /* ////fonts */
+    --font-Mona: Mona,'sans-serif';
+    --font-Dancing:DancingScript;
+
+
+
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes scaleUp {
+    from { transform: translateY(10px) scale(0.95); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+}
+*{
+    overflow-y: hidden ;
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.3s ease forwards;
+}
+.animate-scaleUp {
+    animation: scaleUp 0.3s ease forwards;
+}
