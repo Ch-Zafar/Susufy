@@ -3,15 +3,29 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { Connection, SystemProgram, Transaction, PublicKey } from "@solana/web3.js";
+import { whiteList } from '../models/whitelist';
+import { useDispatch, useSelector } from 'react-redux';
+// import { setPaid } from '../store/features/auth/loginSlice';
 
 
 const Subscription = () => {
     const { publicKey, sendTransaction } = useWallet();
     const navigate = useNavigate();
+    const isPaid = useSelector((state)=> state.auth.paid)
+    const dispatch = useDispatch();
 
 
     const sendSol = async () => {
-        const connection = new Connection("https://api.helius.xyz/?api-key=YOUR_KEY");
+        const endpoint = "https://mainnet.helius-rpc.com/?api-key=f0ce996b-da79-428f-b74c-27fa3a34d5d1";
+
+
+        const connection = new Connection("https://api.devnet.solana.com", "confirmed");
+
+
+        // const connection = new Connection(endpoint,{
+        //     commitment:'confirmed'
+        // }        );
+
         const wallet = new PublicKey("6wAZV2u47edWgroc4e8ZLtL1XXDni9JyUDN8iPpxtJ6P");
         const wallet2 = new PublicKey("BNmBtacrKQexiJYoRyBd9UjdrcLkXUuygsF1kRw1hn2T");
         const amount = (9 * 1e9) / 2;
@@ -34,7 +48,10 @@ const Subscription = () => {
 
             })
         )
+        tx.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
 
+        // 👇 You MUST set feePayer manually
+        tx.feePayer = publicKey;
         try {
             const signature = await sendTransaction(tx, connection);
             console.log('Payment Send to:', publicKey.toBase58());
@@ -43,15 +60,27 @@ const Subscription = () => {
             console.log(error)
         }
 
+        const result = await connection.confirmTransaction(signature, "finalized");
+
+        if (result.value.err) {
+            console.log("❌ Transaction failed:", result.value.err);
+        } else {
+            console.log("✅ Transaction success!");
+            dispatch(setPaid(true))    
+        }   
+
 
     }
 
     useEffect(() => {
+        if(isPaid){
+            navigate('/dashboard')
+        }
         // If wallet is NOT connected, send user back
         if (!publicKey) {
             navigate('/');
         }
-    }, [publicKey, navigate]);
+    }, [publicKey, navigate,isPaid]);
 
     return (
         <>

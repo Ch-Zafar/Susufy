@@ -1,5 +1,7 @@
 @import "@solana/wallet-adapter-react-ui/styles.css";
 
+
+
 @font-face {
   font-family: Mona ;
   src: url('./fonts/MonaSans_SemiExpanded-Regular.ttf');
@@ -15,6 +17,10 @@
 @theme{
     --color-background:#000;
     --color-primary:#FFF;
+    --color-price:#99eba4;
+    --color-time: #fda656;
+    --color-bullish:#99eba4;
+    --color-berish:##EA4700;
 
     /* ////fonts */
     --font-Mona: Mona,'sans-serif';

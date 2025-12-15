@@ -9,11 +9,11 @@ import { useNavigate } from "react-router-dom";
 const UserConection = () => {
     const { publicKey } = useWallet();
     const navigate =useNavigate();
-    useEffect(()=>{
-        if(publicKey){
-            navigate('/subscribe')
-        }
-    },[publicKey])
+    // useEffect(()=>{
+    //     if(publicKey){
+    //         navigate('/login')
+    //     }
+    // },[publicKey])
    
 
 
